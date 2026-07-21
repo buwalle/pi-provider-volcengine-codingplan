@@ -1,0 +1,50 @@
+name: Sync Models
+
+# 可选的定时模型同步。需要在仓库 Settings -> Secrets 配置:
+#   VOLC_INIT_STS_ACCESS_KEY / VOLC_INIT_STS_SECRET_KEY
+#   VOLC_INIT_STS_SESSION_TOKEN / VOLC_INIT_ACCOUNT_ID
+# (来自火山引擎 IAM 的 STS 凭证; STS 会过期, 长期定时跑需能刷新凭证的来源)
+# 不想配凭证可禁用此 workflow, 改为本地手动 `npm run sync` + 提 PR。
+on:
+  schedule:
+    - cron: '17 3 * * 1' # 每周一 03:17 UTC
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install arkcli
+        run: |
+          curl -fsSL https://lf3-static.bytednsdoc.com/obj/eden-cn/ylwslo-yrh/ljhwZthlaukjlkulzlp/install.sh | sh
+          echo "$HOME/.arkcli/bin" >> "$GITHUB_PATH"
+
+      - name: Configure arkcli (VOLC_INIT_*)
+        run: arkcli init-volc
+        env:
+          VOLC_INIT_STS_ACCESS_KEY: ${{ secrets.VOLC_INIT_STS_ACCESS_KEY }}
+          VOLC_INIT_STS_SECRET_KEY: ${{ secrets.VOLC_INIT_STS_SECRET_KEY }}
+          VOLC_INIT_STS_SESSION_TOKEN: ${{ secrets.VOLC_INIT_STS_SESSION_TOKEN }}
+          VOLC_INIT_ACCOUNT_ID: ${{ secrets.VOLC_INIT_ACCOUNT_ID }}
+
+      - run: npm install
+      - run: npm run sync
+
+      - name: Create PR if changed
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: 'chore: sync coding plan models'
+          title: 'chore: sync coding plan models'
+          branch: chore/sync-models
+          body: |
+            由 `sync-models` workflow 自动生成。
+            请 review 元数据（尤其报告里 TODO 标记的模型）后合并。

@@ -1,0 +1,117 @@
+{
+  "version": "2026-07-21",
+  "source": "arkcli plans model-list --plan coding-plan + arkcli models get",
+  "note": "doubao-seed-2.0-code 的 maxTokens arkcli models get 不可用(preview 模型)，沿用旧值，待人工核；pro/lite maxTokens 与 reasoning、code reasoning 已按 arkcli 实测修正。",
+  "models": [
+    {
+      "id": "doubao-seed-code",
+      "name": "doubao-seed-code",
+      "reasoning": false,
+      "input": ["text", "image"],
+      "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+      "contextWindow": 256000,
+      "maxTokens": 32000,
+      "compat": { "supportsDeveloperRole": false, "maxTokensField": "max_tokens" }
+    },
+    {
+      "id": "doubao-seed-2.0-code",
+      "name": "doubao-seed-2.0-code",
+      "reasoning": true,
+      "input": ["text", "image"],
+      "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+      "contextWindow": 256000,
+      "maxTokens": 65536,
+      "compat": { "supportsDeveloperRole": false, "maxTokensField": "max_tokens" }
+    },
+    {
+      "id": "doubao-seed-2.0-pro",
+      "name": "doubao-seed-2.0-pro",
+      "reasoning": true,
+      "input": ["text", "image"],
+      "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+      "contextWindow": 256000,
+      "maxTokens": 128000,
+      "compat": { "supportsDeveloperRole": false, "maxTokensField": "max_tokens" }
+    },
+    {
+      "id": "doubao-seed-2.0-lite",
+      "name": "doubao-seed-2.0-lite",
+      "reasoning": true,
+      "input": ["text", "image"],
+      "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+      "contextWindow": 256000,
+      "maxTokens": 128000,
+      "compat": { "supportsDeveloperRole": false, "maxTokensField": "max_tokens" }
+    },
+    {
+      "id": "glm-5.2",
+      "name": "glm-5.2",
+      "reasoning": true,
+      "input": ["text"],
+      "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+      "contextWindow": 1024000,
+      "maxTokens": 128000,
+      "compat": { "supportsDeveloperRole": false, "maxTokensField": "max_tokens" }
+    },
+    {
+      "id": "deepseek-v4-flash",
+      "name": "deepseek-v4-flash",
+      "reasoning": true,
+      "input": ["text"],
+      "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+      "contextWindow": 1024000,
+      "maxTokens": 384000,
+      "compat": { "supportsDeveloperRole": false, "maxTokensField": "max_tokens" }
+    },
+    {
+      "id": "deepseek-v4-pro",
+      "name": "deepseek-v4-pro",
+      "reasoning": true,
+      "input": ["text"],
+      "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+      "contextWindow": 1024000,
+      "maxTokens": 384000,
+      "compat": { "supportsDeveloperRole": false, "maxTokensField": "max_tokens" }
+    },
+    {
+      "id": "minimax-m2.7",
+      "name": "minimax-m2.7",
+      "reasoning": true,
+      "input": ["text"],
+      "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+      "contextWindow": 200000,
+      "maxTokens": 128000,
+      "compat": { "supportsDeveloperRole": false, "maxTokensField": "max_tokens" }
+    },
+    {
+      "id": "minimax-m3",
+      "name": "minimax-m3",
+      "reasoning": true,
+      "input": ["text", "image"],
+      "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+      "contextWindow": 512000,
+      "maxTokens": 128000,
+      "compat": { "supportsDeveloperRole": false, "maxTokensField": "max_tokens" }
+    },
+    {
+      "id": "kimi-k2.6",
+      "name": "kimi-k2.6",
+      "reasoning": true,
+      "input": ["text", "image"],
+      "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+      "contextWindow": 256000,
+      "maxTokens": 32000,
+      "compat": { "supportsDeveloperRole": false, "maxTokensField": "max_tokens" }
+    },
+    {
+      "id": "kimi-k2.7-code",
+      "name": "kimi-k2.7-code",
+      "reasoning": true,
+      "input": ["text", "image"],
+      "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+      "contextWindow": 256000,
+      "maxTokens": 32000,
+      "compat": { "supportsDeveloperRole": false, "maxTokensField": "max_tokens" }
+    }
+  ]
+}

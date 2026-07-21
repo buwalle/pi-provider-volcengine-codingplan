@@ -1,0 +1,45 @@
+{
+  "name": "pi-volcengine-coding-plan",
+  "version": "0.1.2",
+  "description": "Pi extension for Volcengine Coding Plan, registering Volcengine as a custom OpenAI-compatible provider for domestic coding models.",
+  "keywords": [
+    "pi-package",
+    "volcengine",
+    "coding-plan",
+    "ark",
+    "doubao",
+    "deepseek",
+    "glm",
+    "kimi",
+    "minimax"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "author": "OptimisticQuan",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OptimisticQuan/pi-volcengine-coding-plan.git"
+  },
+  "files": [
+    "extensions",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "sync": "tsx scripts/sync-models.ts"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": ">=0.80.0"
+  },
+  "pi": {
+    "extensions": [
+      "./extensions/index.ts"
+    ]
+  },
+  "devDependencies": {
+    "tsx": "^4.23.1",
+    "vitest": "^4.1.10"
+  }
+}
