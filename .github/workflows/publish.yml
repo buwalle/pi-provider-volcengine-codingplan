@@ -14,24 +14,43 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Decide whether to publish
+        id: decide
+        run: |
+          SUBJECT="$(git log -1 --format=%s)"
+          BODY="$(git log -1 --format=%B)"
+          echo "subject: $SUBJECT"
+          if printf '%s\n' "$SUBJECT" | grep -qE '^(feat|fix)(\(.+\))?:|^breaking:' \
+             || printf '%s\n' "$BODY" | grep -q 'BREAKING CHANGE'; then
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+            echo "→ will publish"
+          else
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            echo "→ skip publish (commit is not feat/fix/BREAKING)"
+          fi
+
       - uses: actions/setup-node@v4
+        if: steps.decide.outputs.publish == 'true'
         with:
           node-version: 22
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies (generate package-lock.json)
+        if: steps.decide.outputs.publish == 'true'
         run: npm install
 
       - name: Bump version and publish
+        if: steps.decide.outputs.publish == 'true'
         uses: phips28/gh-action-bump-version@v10.0.3
         id: version
         with:
           commit-message: 'chore: release v{{version}}'
-          patch-wording: 'fix, patch, bugfix, chore, docs, refactor, perf, test, ci'
+          patch-wording: 'fix, patch, bugfix'
           minor-wording: 'feat, feature, add'
           major-wording: 'BREAKING CHANGE, breaking'
 
       - name: Publish to npm
+        if: steps.decide.outputs.publish == 'true'
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
