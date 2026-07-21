@@ -43,12 +43,12 @@ git remote add origin git@github.com:buwalle/pi-provider-volcengine-codingplan.g
 git push -u origin main
 ```
 
-## 3. 修改占位信息
+## 3. 确认占位信息已替换
 
-首次发布前，先把这些占位符替换成你自己的信息：
+首次发布前，确认这些信息已经指向你自己的仓库（本项目已完成）：
 
 - `package.json` 的 `author` 和 `repository.url`
-- `extensions/index.ts` 里的清单 fetch URL 已指向 `https://raw.githubusercontent.com/buwalle/pi-provider-volcengine-codingplan/main/registry/models.json`
+- `extensions/index.ts` 里的清单 fetch URL 指向 `https://raw.githubusercontent.com/buwalle/pi-provider-volcengine-codingplan/main/registry/models.json`
 
 后者尤其关键：不替换的话，扩展启动时 fetch 清单永远 404，用户只能拿到打包的静态 fallback，拿不到后续模型更新。
 
@@ -96,17 +96,13 @@ pi --list-models
 
 确认能看到 `volcengine-plan/doubao-seed-2.0-code` 以及其他模型。
 
-## 6. 配置 GitHub Actions 自动发布
+## 6. 配置 GitHub Actions 发版
 
 当前仓库已经准备好了工作流文件：
 
 - `.github/workflows/publish.yml`
 
-这个工作流会在你 push 到 `main` 或 `master` 时自动：
-
-1. 安装依赖
-2. 根据 commit message 自动 bump 版本号
-3. 发布 npm 包
+push 到 `main` 时，工作流会读取 commit message：只有 `feat:` / `fix:` / `BREAKING CHANGE` 的 commit 才会 bump 版本并发布；`docs:` / `chore:` / `refactor:` 等只跑测试、不发版。
 
 ### 你必须配置的 GitHub Secret
 
@@ -119,34 +115,44 @@ GitHub Repository -> Settings -> Secrets and variables -> Actions
 新增一个 secret：
 
 - Name: `NPM_TOKEN`
-- Value: 你的 npm Automation Token
+- Value: 你的 npm 发布 token（见下一步）
 
-## 7. 创建 npm Automation Token
+## 7. 创建 npm 发布 Token
 
 进入 npm 后台：
 
 ```text
-https://www.npmjs.com/settings/<your-npm-username>/tokens
+https://www.npmjs.com/settings/buwalle/tokens
 ```
 
-创建一个 `Automation` 类型 token，然后把它填到 GitHub 的 `NPM_TOKEN` secret。
+推荐创建 **Granular Access Token**（最小权限）：
 
-不要把 token 写进仓库，也不要直接提交到代码里。
+- Token name: `pi-provider-volcengine-codingplan CI`
+- Expiration: 90 days
+- Packages: Read and write
+- Select packages: 勾选 `pi-provider-volcengine-codingplan`（包发布后才能选到）
+- Organizations: No access
+- Allowed IP ranges: 留空
 
-## 8. 自动版本号规则
+> 若账号开启了 2FA，Granular Token 用于 CI 发布时会 bypass OTP，无需手动输码。
 
-当前 GitHub Action 使用 commit message 自动决定版本号升级：
+把它填到 GitHub 的 `NPM_TOKEN` secret。不要把 token 写进仓库，也不要直接提交到代码里。
 
-- Patch：`fix`, `patch`, `bugfix`, `chore`, `docs`, `refactor`, `perf`, `test`, `ci`
-- Minor：`feat`, `feature`, `add`
-- Major：`BREAKING CHANGE`, `breaking`
+## 8. 版本号规则
+
+`publish.yml` 根据 commit message 决定是否发版及版本号升级：
+
+- **不发版**：`docs` / `chore` / `refactor` / `perf` / `test` / `ci` 等前缀（只跑测试）
+- **Patch**：`fix` / `patch` / `bugfix`
+- **Minor**：`feat` / `feature` / `add`
+- **Major**：`BREAKING CHANGE` / `breaking`
 
 示例：
 
 ```bash
-git commit -m "feat: add initial volcengine coding plan provider"
-git commit -m "fix: correct deepseek model metadata"
-git commit -m "docs: improve publishing guide"
+git commit -m "feat: sync coding plan models"          # 发版，minor
+git commit -m "fix: correct deepseek model metadata"   # 发版，patch
+git commit -m "docs: improve publishing guide"          # 不发版，仅测试
 ```
 
 ## 9. 首次发布有两种方式
@@ -169,7 +175,7 @@ npm publish --access public
 - `NPM_TOKEN` 已配置
 - 代码已 push 到 `main`
 
-只要你 push 一个符合 SemVer 规则的 commit，Action 就会自动发布。
+只要你 push 一个 `feat:` / `fix:` / `BREAKING CHANGE` 的 commit，Action 就会发版。
 
 ## 10. 发布后怎么验证
 
@@ -192,8 +198,8 @@ https://www.npmjs.com/package/pi-provider-volcengine-codingplan
 打开仓库的 `Actions` 页面，确认：
 
 - `Publish npm Package` 工作流成功
-- 自动生成了版本 bump commit
-- 自动打了对应 tag
+- 生成了版本 bump commit
+- 打了对应 tag
 
 ## 11. 检查 pi 是否收录
 
@@ -237,7 +243,7 @@ npm test        # 验证 fallback↔registry、README↔registry 一致性
 
 `npm run sync` 的合并策略会保护人工维护的元数据：`arkcli models get` 能查到的字段（标准模型的 contextWindow/maxTokens/input、reasoning）自动更新；查不到的模型（preview/modelhub 类，如 doubao-seed-2.0-code/kimi/minimax）保留现有值并在报告里标 TODO，需人工核。
 
-review 报告后提交一个 `feat:` 或 `fix:` commit 触发新版本发布。也可以配置 `.github/workflows/sync-models.yml` 定时自动跑并提 PR（需配 `VOLC_INIT_STS_*` secret，详见 workflow 注释）。
+review 报告后提交一个 `feat:` 或 `fix:` commit 触发新版本发布。
 
 ### 发版前检查清单
 
@@ -245,10 +251,11 @@ review 报告后提交一个 `feat:` 或 `fix:` commit 触发新版本发布。�
 
 1. `package.json` 版本和元数据是否合理
 2. `extensions/index.ts` 里的清单 fetch URL 指向 `buwalle/pi-provider-volcengine-codingplan`
-3. `npm publish --dry-run` 是否通过
-4. `npm test` 是否全绿
-5. `README.md` 的安装和使用示例是否还是准确的
-6. `VOLCENGINE_API_KEY` 名称是否和代码保持一致
+3. commit 前缀是 `feat` / `fix` / `BREAKING CHANGE` 才会发版，其他只跑测试
+4. `npm publish --dry-run` 是否通过
+5. `npm test` 是否全绿
+6. `README.md` 的安装和使用示例是否还是准确的
+7. `VOLCENGINE_API_KEY` 名称是否和代码保持一致
 
 ## 13. 推荐的一次完整流程
 
