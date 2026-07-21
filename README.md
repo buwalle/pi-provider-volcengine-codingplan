@@ -111,6 +111,16 @@ pi --list-models
 
 完整发布流程见 [PUBLISHING.md](./PUBLISHING.md)。
 
+### 自动发版
+
+push 到 `main` 时，GitHub Actions（`.github/workflows/publish.yml`）会根据 commit message 自动 bump 版本并发布到 npm：
+
+- `fix:` / `chore:` / `docs:` / `refactor:` / `perf:` / `test:` / `ci:` -> patch（0.1.x）
+- `feat:` / `feature:` / `add:` -> minor（0.x.0）
+- `BREAKING CHANGE` / `breaking` -> major（x.0.0）
+
+前提是仓库 Secrets 里已配置 `NPM_TOKEN`。
+
 ### 更新模型
 
 方舟套餐模型变更时，本地跑（前提：`arkcli auth login` 已认证）：
