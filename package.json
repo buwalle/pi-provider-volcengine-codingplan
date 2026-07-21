@@ -1,6 +1,6 @@
 {
   "name": "pi-provider-volcengine-codingplan",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Pi extension for Volcengine Coding Plan, registering Volcengine as a custom OpenAI-compatible provider for domestic coding models.",
   "keywords": [
     "pi-package",
