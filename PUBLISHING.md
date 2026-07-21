@@ -1,4 +1,4 @@
-# pi-volcengine-coding-plan 发布指南
+# pi-provider-volcengine-codingplan 发布指南
 
 这份文档按“从 0 到发布完成”的顺序整理，适合第一次发布 pi 扩展包。
 
@@ -33,13 +33,13 @@ git branch -M main
 然后在 GitHub 创建一个新仓库，比如：
 
 ```text
-pi-volcengine-coding-plan
+pi-provider-volcengine-codingplan
 ```
 
 把远程仓库地址加到本地：
 
 ```bash
-git remote add origin git@github.com:<your-github-username>/pi-volcengine-coding-plan.git
+git remote add origin git@github.com:buwalle/pi-provider-volcengine-codingplan.git
 git push -u origin main
 ```
 
@@ -48,7 +48,7 @@ git push -u origin main
 首次发布前，先把这些占位符替换成你自己的信息：
 
 - `package.json` 的 `author` 和 `repository.url`
-- `extensions/index.ts` 里的 `<owner>/<repo>`（清单 fetch URL：`https://raw.githubusercontent.com/<owner>/<repo>/main/registry/models.json`）
+- `extensions/index.ts` 里的清单 fetch URL 已指向 `https://raw.githubusercontent.com/buwalle/pi-provider-volcengine-codingplan/main/registry/models.json`
 
 后者尤其关键：不替换的话，扩展启动时 fetch 清单永远 404，用户只能拿到打包的静态 fallback，拿不到后续模型更新。
 
@@ -63,7 +63,7 @@ git push -u origin main
 同时建议先确认包名还可用：
 
 ```bash
-npm view pi-volcengine-coding-plan
+npm view pi-provider-volcengine-codingplan
 ```
 
 如果返回 404，通常说明这个包名还没有被占用。
@@ -178,7 +178,7 @@ npm publish --access public
 打开：
 
 ```text
-https://www.npmjs.com/package/pi-volcengine-coding-plan
+https://www.npmjs.com/package/pi-provider-volcengine-codingplan
 ```
 
 确认：
@@ -222,7 +222,7 @@ https://pi.dev/packages
 https://github.com/badlogic/pi-mono/issues
 ```
 
-说明你的包名是 `pi-volcengine-coding-plan`，并附上 npm 链接。
+说明你的包名是 `pi-provider-volcengine-codingplan`，并附上 npm 链接。
 
 ## 12. 后续维护建议
 
@@ -244,7 +244,7 @@ review 报告后提交一个 `feat:` 或 `fix:` commit 触发新版本发布。�
 每次发版前至少检查：
 
 1. `package.json` 版本和元数据是否合理
-2. `extensions/index.ts` 里的 `<owner>/<repo>` 占位符已替换成实际仓库地址
+2. `extensions/index.ts` 里的清单 fetch URL 指向 `buwalle/pi-provider-volcengine-codingplan`
 3. `npm publish --dry-run` 是否通过
 4. `npm test` 是否全绿
 5. `README.md` 的安装和使用示例是否还是准确的

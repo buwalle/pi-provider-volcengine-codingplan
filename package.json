@@ -1,5 +1,5 @@
 {
-  "name": "pi-volcengine-coding-plan",
+  "name": "pi-provider-volcengine-codingplan",
   "version": "0.1.2",
   "description": "Pi extension for Volcengine Coding Plan, registering Volcengine as a custom OpenAI-compatible provider for domestic coding models.",
   "keywords": [
@@ -15,10 +15,10 @@
   ],
   "license": "MIT",
   "type": "module",
-  "author": "OptimisticQuan",
+  "author": "buwalle",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OptimisticQuan/pi-volcengine-coding-plan.git"
+    "url": "git+https://github.com/buwalle/pi-provider-volcengine-codingplan.git"
   },
   "files": [
     "extensions",

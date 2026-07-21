@@ -2,10 +2,9 @@ import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { FALLBACK_MODELS } from "./fallback-models";
 
 // 公开模型清单 URL（raw.githubusercontent）。启动时 fetch 拿最新套餐模型，
-// 失败则用打包的 FALLBACK_MODELS。发布前把 <owner>/<repo> 替换成实际仓库地址，
-// 或通过 VOLCENGINE_PLAN_REGISTRY_URL 环境变量覆盖。
+// 失败则用打包的 FALLBACK_MODELS。可通过 VOLCENGINE_PLAN_REGISTRY_URL 环境变量覆盖。
 const DEFAULT_REGISTRY_URL =
-  "https://raw.githubusercontent.com/<owner>/<repo>/main/registry/models.json";
+  "https://raw.githubusercontent.com/buwalle/pi-provider-volcengine-codingplan/main/registry/models.json";
 const REGISTRY_URL =
   process.env.VOLCENGINE_PLAN_REGISTRY_URL ?? DEFAULT_REGISTRY_URL;
 
