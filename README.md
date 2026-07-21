@@ -8,7 +8,7 @@
 ## 功能概览
 
 - 注册火山引擎 Coding Plan provider，兼容 pi 的 OpenAI 风格调用路径
-- 使用统一的 `VOLCENGINE_API_KEY` 环境变量访问全部模型
+- 凭据通过 `VOLCENGINE_API_KEY` 环境变量或 `pi /login` 提供
 - 覆盖火山引擎 Coding Plan 当前完整模型集合
 - 直接使用国内版 Coding Plan endpoint，而不是基础模型 endpoint
 
@@ -20,13 +20,19 @@ pi install npm:pi-provider-volcengine-codingplan
 
 ## 配置
 
-先准备火山引擎方舟 API Key，然后设置环境变量：
+先准备火山引擎方舟 API Key，二选一提供给 pi：
+
+**方式一：环境变量**
 
 ```bash
 export VOLCENGINE_API_KEY="your-ark-api-key"
 ```
 
-如果你想长期使用，把这一行写进 `~/.zshrc` 或 `~/.bashrc`。
+长期使用写进 `~/.zshrc` 或 `~/.bashrc`。
+
+**方式二：pi keychain**
+
+在 pi 交互式里执行 `/login` 录入 key（存入 pi keychain，无需配置环境变量）。
 
 ## 使用方式
 
@@ -49,11 +55,7 @@ pi --model volcengine-plan/deepseek-v4-pro
 pi --model volcengine-plan/kimi-k2.7-code
 ```
 
-列出当前所有可用模型：
-
-```bash
-pi --list-models
-```
+> 提示：`pi --list-models` 只列 pi 内置 catalog，**不会展示扩展注册的模型**，所以看不到 `volcengine-plan` 下的条目（不代表没装好）。查看本 provider 的模型请用交互式 `/model`，或直接看下方「可用模型」表。
 
 如果你要把它设成默认模型，可以参考下面的配置思路：
 
@@ -106,31 +108,6 @@ pi --list-models
 - 不要改成普通基础模型接口，否则调用路径和计费方式都可能不符合你的 Coding Plan 预期
 - 类似 `glm-5.2`、`deepseek-v4-pro`、`kimi-k2.6` 这类常见模型 id，可能与其他 provider 重名，建议始终使用 `volcengine-plan/模型ID`
 - Coding Plan 额度仅限 AI 编程工具使用，请勿用于非编程用途的 API 调用，否则可能被识别为滥用导致订阅停用或账号封禁
-
-## 发布与维护
-
-完整发布流程见 [PUBLISHING.md](./PUBLISHING.md)。
-
-### 自动发版
-
-push 到 `main` 时，GitHub Actions（`.github/workflows/publish.yml`）会根据 commit message 自动 bump 版本并发布到 npm：
-
-- `fix:` / `chore:` / `docs:` / `refactor:` / `perf:` / `test:` / `ci:` -> patch（0.1.x）
-- `feat:` / `feature:` / `add:` -> minor（0.x.0）
-- `BREAKING CHANGE` / `breaking` -> major（x.0.0）
-
-前提是仓库 Secrets 里已配置 `NPM_TOKEN`。
-
-### 更新模型
-
-方舟套餐模型变更时，本地跑（前提：`arkcli auth login` 已认证）：
-
-```bash
-npm run sync    # arkcli 查套餐 -> 生成 registry + fallback + README 表
-npm test        # 验证一致性
-```
-
-review sync 报告里 TODO 标记的模型元数据后，提交一个 `feat:` 或 `fix:` commit 触发新版本发布。详见 [PUBLISHING.md](./PUBLISHING.md) 的「后续维护」。
 
 ## 致谢
 
