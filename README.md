@@ -8,7 +8,7 @@
 ## 功能概览
 
 - 注册火山引擎 Coding Plan provider，兼容 pi 的 OpenAI 风格调用路径
-- 凭据通过 `VOLCENGINE_API_KEY` 环境变量或 `pi /login` 提供
+- 凭据通过 `pi /login` 录入（存入 pi keychain）
 - 覆盖火山引擎 Coding Plan 当前完整模型集合
 - 直接使用国内版 Coding Plan endpoint，而不是基础模型 endpoint
 
@@ -18,22 +18,6 @@
 pi install npm:pi-provider-volcengine-codingplan
 ```
 
-## 配置
-
-先准备火山引擎方舟 API Key，二选一提供给 pi：
-
-**方式一：环境变量**
-
-```bash
-export VOLCENGINE_API_KEY="your-ark-api-key"
-```
-
-长期使用写进 `~/.zshrc` 或 `~/.bashrc`。
-
-**方式二：pi keychain**
-
-在 pi 交互式里执行 `/login` 录入 key（存入 pi keychain，无需配置环境变量）。
-
 ## 使用方式
 
 ### 交互式选择模型
@@ -42,7 +26,10 @@ export VOLCENGINE_API_KEY="your-ark-api-key"
 pi
 ```
 
-进入后执行 `/model`，从列表中选择 `volcengine-plan` 下面的模型。
+进入后：
+
+1. 执行 `/login`，录入火山引擎方舟 API Key（存入 pi keychain，无需配置环境变量）
+2. 执行 `/model`，从列表中选择 `volcengine-plan` 下面的模型
 
 ### 命令行直接指定模型
 
