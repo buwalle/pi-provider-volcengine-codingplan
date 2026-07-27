@@ -1,13 +1,10 @@
 name: Sync Models
 
-# 可选的定时模型同步。需要在仓库 Settings -> Secrets 配置:
-#   VOLC_INIT_STS_ACCESS_KEY / VOLC_INIT_STS_SECRET_KEY
-#   VOLC_INIT_STS_SESSION_TOKEN / VOLC_INIT_ACCOUNT_ID
-# (来自火山引擎 IAM 的 STS 凭证; STS 会过期, 长期定时跑需能刷新凭证的来源)
-# 不想配凭证可禁用此 workflow, 改为本地手动 `npm run sync` + 提 PR。
+# 模型同步 workflow（仅手动触发）。
+# 注意：定时 schedule 已禁用--install.sh 装出的是 ark-helper 而非 arkcli，
+# 且 STS 凭证未配，定时跑注定 exit 127。推荐本地 `npm run sync` + 提交 PR。
+# 如需在此 workflow 内跑，需在 Settings -> Secrets 配置 VOLC_INIT_* 并修 arkcli 命令名。
 on:
-  schedule:
-    - cron: '17 3 * * 1' # 每周一 03:17 UTC
   workflow_dispatch:
 
 jobs:
