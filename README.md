@@ -62,17 +62,14 @@ pi --model volcengine-plan/kimi-k2.7-code
 
 | Model ID | Context Window | Max Tokens | Input | Reasoning |
 |----------|----------------|------------|-------|-----------|
-| `doubao-seed-code` | 256000 | 32000 | text, image | no |
-| `doubao-seed-2.0-code` | 256000 | 65536 | text, image | yes |
-| `doubao-seed-2.0-pro` | 256000 | 128000 | text, image | yes |
+| `doubao-seed-2-1-turbo` | 256000 | 256000 | text, image | yes |
 | `doubao-seed-2.0-lite` | 256000 | 128000 | text, image | yes |
-| `glm-5.2` | 1024000 | 128000 | text | yes |
+| `glm-5.3` | 128000 | 32000 | text | yes |
 | `deepseek-v4-flash` | 1024000 | 384000 | text | yes |
-| `deepseek-v4-pro` | 1024000 | 384000 | text | yes |
-| `minimax-m2.7` | 200000 | 128000 | text | yes |
-| `minimax-m3` | 512000 | 128000 | text, image | yes |
-| `kimi-k2.6` | 256000 | 32000 | text, image | yes |
+| `glm-5.2` | 1024000 | 128000 | text | yes |
 | `kimi-k2.7-code` | 256000 | 32000 | text, image | yes |
+| `minimax-m3` | 512000 | 128000 | text, image | yes |
+| `deepseek-v4-pro` | 1024000 | 384000 | text | yes |
 
 > 模型清单由维护者通过 `arkcli plans model-list --plan coding-plan` + `arkcli models get` 实测生成（见 `scripts/sync-models.ts`），存于 `registry/models.json`。
 
