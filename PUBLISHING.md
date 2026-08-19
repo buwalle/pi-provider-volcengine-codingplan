@@ -243,6 +243,8 @@ npm test        # 验证 fallback↔registry、README↔registry 一致性
 
 `npm run sync` 的合并策略会保护人工维护的元数据：`arkcli models get` 能查到的字段（标准模型的 contextWindow/maxTokens/input、reasoning）自动更新；查不到的模型（preview/modelhub 类，如 doubao-seed-2.0-code/kimi/minimax）保留现有值并在报告里标 TODO，需人工核。
 
+**用户端 fetch 失败（国内网络对 GitHub 不稳定）**：扩展启动时先试 jsDelivr CDN、再试 GitHub raw，全部失败才回退到打包的 fallback。fallback 只在**发版后用户升级扩展**才会更新，所以用户反馈"模型没更新"时，引导其执行 `pi update --extensions` 升级到最新版并完全重启 pi（扩展只在进程启动时加载一次），不必等网络恢复。
+
 review 报告后提交一个 `feat:` 或 `fix:` commit 触发新版本发布。
 
 ### 发版前检查清单

@@ -75,12 +75,14 @@ pi --model volcengine-plan/kimi-k2.7-code
 
 ## 模型清单与自动更新
 
-本扩展**启动时会从 GitHub 拉取最新模型清单**，无需升级插件即可用到方舟新增的套餐模型：
+本扩展**启动时会从远端拉取最新模型清单**，无需升级插件即可用到方舟新增的套餐模型：
 
-- 启动时 `fetch` 公开清单 `https://raw.githubusercontent.com/buwalle/pi-provider-volcengine-codingplan/main/registry/models.json`（5s 超时）
-- 拉取成功 -> 用清单中的模型动态注册
-- 拉取失败 / 超时 / 格式错 -> 回退到插件打包的静态清单（`extensions/fallback-models.ts`），离线仍可用
+- 启动时按顺序 `fetch` 公开清单（每源 5s 超时）：**jsDelivr CDN 优先**（国内一般可达），GitHub raw 兜底
+- 任一源拉取成功 -> 用清单中的模型动态注册
+- 全部源失败 / 超时 / 格式错 -> 回退到插件打包的静态清单（`extensions/fallback-models.ts`），离线仍可用
 - 可通过环境变量 `VOLCENGINE_PLAN_REGISTRY_URL` 覆盖清单地址（指向自托管镜像）
+
+**fetch 失败时模型没更新怎么办**：扩展升级后其打包的 fallback 自带最新模型清单。若重启 pi 后仍是旧模型，先 `pi update --extensions` 把扩展升级到最新版，再完全退出并重新打开 pi 即可（扩展只在进程启动时加载一次）。
 
 清单只含模型元数据（id / reasoning / input / 上下文窗口 / 输出上限），不含 baseUrl、API key 或可执行代码；`baseUrl` 始终是固定的方舟 Coding Plan endpoint。
 

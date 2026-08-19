@@ -1,28 +1,36 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { FALLBACK_MODELS } from "./fallback-models";
 
-// 公开模型清单 URL（raw.githubusercontent）。启动时 fetch 拿最新套餐模型，
-// 失败则用打包的 FALLBACK_MODELS。可通过 VOLCENGINE_PLAN_REGISTRY_URL 环境变量覆盖。
-const DEFAULT_REGISTRY_URL =
-  "https://raw.githubusercontent.com/buwalle/pi-provider-volcengine-codingplan/main/registry/models.json";
-const REGISTRY_URL =
-  process.env.VOLCENGINE_PLAN_REGISTRY_URL ?? DEFAULT_REGISTRY_URL;
+// 公开模型清单 URL 列表。启动时按顺序 fetch，拿最新套餐模型；
+// 全部失败则用打包的 FALLBACK_MODELS。
+// - jsDelivr CDN 优先（国内一般可达），GitHub raw 兜底。
+// - 可通过 VOLCENGINE_PLAN_REGISTRY_URL 环境变量覆盖为单一地址。
+const REGISTRY_URLS = process.env.VOLCENGINE_PLAN_REGISTRY_URL
+  ? [process.env.VOLCENGINE_PLAN_REGISTRY_URL]
+  : [
+      "https://cdn.jsdelivr.net/gh/buwalle/pi-provider-volcengine-codingplan@main/registry/models.json",
+      "https://raw.githubusercontent.com/buwalle/pi-provider-volcengine-codingplan/main/registry/models.json",
+    ];
 
-export default async function (pi: ExtensionAPI) {
-  let models = FALLBACK_MODELS;
-  try {
-    const res = await fetch(REGISTRY_URL, {
-      signal: AbortSignal.timeout(5000),
-    });
-    if (res.ok) {
+async function fetchRegistryModels(urls: string[]): Promise<unknown[] | null> {
+  for (const url of urls) {
+    try {
+      const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
+      if (!res.ok) continue;
       const data = (await res.json()) as { models?: unknown };
       if (Array.isArray(data?.models) && data.models.length) {
-        models = data.models as typeof FALLBACK_MODELS;
+        return data.models;
       }
+    } catch {
+      // 该源失败/超时/格式错 -> 试下一个；全部失败返回 null
     }
-  } catch {
-    // 网络失败/超时/格式错 -> 用打包的静态 fallback
   }
+  return null;
+}
+
+export default async function (pi: ExtensionAPI) {
+  const fetched = await fetchRegistryModels(REGISTRY_URLS);
+  const models = (fetched ?? FALLBACK_MODELS) as typeof FALLBACK_MODELS;
 
   pi.registerProvider("volcengine-plan", {
     name: "Volcengine Coding Plan",

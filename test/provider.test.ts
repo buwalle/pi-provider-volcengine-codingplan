@@ -74,6 +74,35 @@ describe("fetch registry path", () => {
     const pi = await loadExtension();
     expect(pi.providers["volcengine-plan"].models).toEqual(FALLBACK_MODELS);
   });
+
+  it("tries next source when the first one fails", async () => {
+    const fetched = [
+      {
+        id: "fetched-model",
+        name: "Fetched",
+        reasoning: false,
+        input: ["text"],
+        cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+        contextWindow: 1000,
+        maxTokens: 100,
+      },
+    ];
+    const pi = await loadExtension({
+      // 第一源（jsDelivr）reject，第二源（GitHub raw）成功
+      fetchSequence: [
+        null,
+        new Response(JSON.stringify({ models: fetched }), { status: 200 }),
+      ],
+    });
+    expect(pi.providers["volcengine-plan"].models).toEqual(fetched);
+  });
+
+  it("falls back when every source fails", async () => {
+    const pi = await loadExtension({
+      fetchSequence: [null, null],
+    });
+    expect(pi.providers["volcengine-plan"].models).toEqual(FALLBACK_MODELS);
+  });
 });
 
 describe("model metadata completeness (registry)", () => {

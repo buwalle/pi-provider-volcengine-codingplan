@@ -28,13 +28,25 @@ export function createFakePi(): FakePi {
 export interface LoadOpts {
   /** 成功时的 Response；不传或传 null -> fetch reject（测 fallback 路径）。 */
   fetchResponse?: Response | null;
+  /**
+   * 按调用次数返回的 fetch 序列（测"首源失败、次源兜底"）。
+   * 元素为 Response 表示成功返回，null 表示 reject。
+   */
+  fetchSequence?: Array<Response | null>;
 }
 
 /** 用一个全新的 fake pi 加载扩展（async factory）。默认 fetch 失败走 fallback。 */
 export async function loadExtension(opts: LoadOpts = {}): Promise<FakePi> {
   const pi = createFakePi();
   const originalFetch = globalThis.fetch;
-  if (!opts.fetchResponse) {
+  if (opts.fetchSequence) {
+    let i = 0;
+    globalThis.fetch = vi.fn(() => {
+      const res = opts.fetchSequence![i++];
+      if (res === null) return Promise.reject(new Error("test: source down"));
+      return Promise.resolve(res);
+    }) as any;
+  } else if (!opts.fetchResponse) {
     globalThis.fetch = vi.fn(() =>
       Promise.reject(new Error("test: no network"))
     ) as any;
