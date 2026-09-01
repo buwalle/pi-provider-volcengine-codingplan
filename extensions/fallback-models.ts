@@ -5,6 +5,27 @@ import type { ProviderModelConfig } from "@earendil-works/pi-coding-agent";
 
 export const FALLBACK_MODELS: ProviderModelConfig[] = [
   {
+    "id": "doubao-seed-evolving",
+    "name": "doubao-seed-evolving",
+    "reasoning": true,
+    "input": [
+      "text",
+      "image"
+    ],
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0
+    },
+    "contextWindow": 1024000,
+    "maxTokens": 256000,
+    "compat": {
+      "supportsDeveloperRole": false,
+      "maxTokensField": "max_tokens"
+    }
+  },
+  {
     "id": "doubao-seed-2-1-turbo",
     "name": "doubao-seed-2-1-turbo",
     "reasoning": true,
@@ -47,6 +68,27 @@ export const FALLBACK_MODELS: ProviderModelConfig[] = [
     }
   },
   {
+    "id": "glm-5-3-flash",
+    "name": "glm-5.3-flash",
+    "reasoning": true,
+    "input": [
+      "text",
+      "image"
+    ],
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0
+    },
+    "contextWindow": 1048576,
+    "maxTokens": 128000,
+    "compat": {
+      "supportsDeveloperRole": false,
+      "maxTokensField": "max_tokens"
+    }
+  },
+  {
     "id": "glm-5.3",
     "name": "glm-5.3",
     "reasoning": true,
@@ -59,8 +101,28 @@ export const FALLBACK_MODELS: ProviderModelConfig[] = [
       "cacheRead": 0,
       "cacheWrite": 0
     },
-    "contextWindow": 128000,
-    "maxTokens": 32000,
+    "contextWindow": 1048576,
+    "maxTokens": 128000,
+    "compat": {
+      "supportsDeveloperRole": false,
+      "maxTokensField": "max_tokens"
+    }
+  },
+  {
+    "id": "deepseek-v4-pro",
+    "name": "deepseek-v4-pro",
+    "reasoning": true,
+    "input": [
+      "text"
+    ],
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0
+    },
+    "contextWindow": 1024000,
+    "maxTokens": 384000,
     "compat": {
       "supportsDeveloperRole": false,
       "maxTokensField": "max_tokens"
@@ -81,26 +143,6 @@ export const FALLBACK_MODELS: ProviderModelConfig[] = [
     },
     "contextWindow": 1024000,
     "maxTokens": 384000,
-    "compat": {
-      "supportsDeveloperRole": false,
-      "maxTokensField": "max_tokens"
-    }
-  },
-  {
-    "id": "glm-5.2",
-    "name": "glm-5.2",
-    "reasoning": true,
-    "input": [
-      "text"
-    ],
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cacheRead": 0,
-      "cacheWrite": 0
-    },
-    "contextWindow": 1024000,
-    "maxTokens": 128000,
     "compat": {
       "supportsDeveloperRole": false,
       "maxTokensField": "max_tokens"
@@ -143,26 +185,6 @@ export const FALLBACK_MODELS: ProviderModelConfig[] = [
     },
     "contextWindow": 512000,
     "maxTokens": 128000,
-    "compat": {
-      "supportsDeveloperRole": false,
-      "maxTokensField": "max_tokens"
-    }
-  },
-  {
-    "id": "deepseek-v4-pro",
-    "name": "deepseek-v4-pro",
-    "reasoning": true,
-    "input": [
-      "text"
-    ],
-    "cost": {
-      "input": 0,
-      "output": 0,
-      "cacheRead": 0,
-      "cacheWrite": 0
-    },
-    "contextWindow": 1024000,
-    "maxTokens": 384000,
     "compat": {
       "supportsDeveloperRole": false,
       "maxTokensField": "max_tokens"
