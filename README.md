@@ -63,12 +63,18 @@ pi --model volcengine-plan/kimi-k2.7-code
 | Model ID | Context Window | Max Tokens | Input | Reasoning |
 |----------|----------------|------------|-------|-----------|
 | `doubao-seed-evolving` | 1024000 | 256000 | text, image | yes |
+| `doubao-seed-2-1-pro` | 1024000 | 256000 | text, image | yes |
+| `doubao-seed-2-1-lite` | 1024000 | 256000 | text, image | yes |
+| `doubao-seed-2-0-mini` | 256000 | 128000 | text, image | yes |
 | `doubao-seed-2-1-turbo` | 256000 | 256000 | text, image | yes |
 | `doubao-seed-2.0-lite` | 256000 | 128000 | text, image | yes |
-| `glm-5-3-flash` | 1048576 | 128000 | text, image | yes |
+| `deepseek-v4-1-flash` | 1024000 | 384000 | text, image | yes |
+| `kimi-k2-8-preview` | 256000 | 32000 | text, image | yes |
+| `glm-5-3-flash` | 1024000 | 128000 | text, image | yes |
 | `glm-5.3` | 1048576 | 128000 | text | yes |
 | `deepseek-v4-pro` | 1024000 | 384000 | text | yes |
 | `deepseek-v4-flash` | 1024000 | 384000 | text | yes |
+| `kimi-k3` | 1048576 | 32000 | text, image | yes |
 | `kimi-k2.7-code` | 256000 | 32000 | text, image | yes |
 | `minimax-m3` | 512000 | 128000 | text, image | yes |
 

@@ -26,6 +26,69 @@ export const FALLBACK_MODELS: ProviderModelConfig[] = [
     }
   },
   {
+    "id": "doubao-seed-2-1-pro",
+    "name": "doubao-seed-2-1-pro",
+    "reasoning": true,
+    "input": [
+      "text",
+      "image"
+    ],
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0
+    },
+    "contextWindow": 1024000,
+    "maxTokens": 256000,
+    "compat": {
+      "supportsDeveloperRole": false,
+      "maxTokensField": "max_tokens"
+    }
+  },
+  {
+    "id": "doubao-seed-2-1-lite",
+    "name": "doubao-seed-2-1-lite",
+    "reasoning": true,
+    "input": [
+      "text",
+      "image"
+    ],
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0
+    },
+    "contextWindow": 1024000,
+    "maxTokens": 256000,
+    "compat": {
+      "supportsDeveloperRole": false,
+      "maxTokensField": "max_tokens"
+    }
+  },
+  {
+    "id": "doubao-seed-2-0-mini",
+    "name": "doubao-seed-2-0-mini",
+    "reasoning": true,
+    "input": [
+      "text",
+      "image"
+    ],
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0
+    },
+    "contextWindow": 256000,
+    "maxTokens": 128000,
+    "compat": {
+      "supportsDeveloperRole": false,
+      "maxTokensField": "max_tokens"
+    }
+  },
+  {
     "id": "doubao-seed-2-1-turbo",
     "name": "doubao-seed-2-1-turbo",
     "reasoning": true,
@@ -68,6 +131,48 @@ export const FALLBACK_MODELS: ProviderModelConfig[] = [
     }
   },
   {
+    "id": "deepseek-v4-1-flash",
+    "name": "deepseek-v4-1-flash",
+    "reasoning": true,
+    "input": [
+      "text",
+      "image"
+    ],
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0
+    },
+    "contextWindow": 1024000,
+    "maxTokens": 384000,
+    "compat": {
+      "supportsDeveloperRole": false,
+      "maxTokensField": "max_tokens"
+    }
+  },
+  {
+    "id": "kimi-k2-8-preview",
+    "name": "kimi-k2-8-preview",
+    "reasoning": true,
+    "input": [
+      "text",
+      "image"
+    ],
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0
+    },
+    "contextWindow": 256000,
+    "maxTokens": 32000,
+    "compat": {
+      "supportsDeveloperRole": false,
+      "maxTokensField": "max_tokens"
+    }
+  },
+  {
     "id": "glm-5-3-flash",
     "name": "glm-5.3-flash",
     "reasoning": true,
@@ -81,7 +186,7 @@ export const FALLBACK_MODELS: ProviderModelConfig[] = [
       "cacheRead": 0,
       "cacheWrite": 0
     },
-    "contextWindow": 1048576,
+    "contextWindow": 1024000,
     "maxTokens": 128000,
     "compat": {
       "supportsDeveloperRole": false,
@@ -143,6 +248,27 @@ export const FALLBACK_MODELS: ProviderModelConfig[] = [
     },
     "contextWindow": 1024000,
     "maxTokens": 384000,
+    "compat": {
+      "supportsDeveloperRole": false,
+      "maxTokensField": "max_tokens"
+    }
+  },
+  {
+    "id": "kimi-k3",
+    "name": "kimi-k3",
+    "reasoning": true,
+    "input": [
+      "text",
+      "image"
+    ],
+    "cost": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0
+    },
+    "contextWindow": 1048576,
+    "maxTokens": 32000,
     "compat": {
       "supportsDeveloperRole": false,
       "maxTokensField": "max_tokens"
