@@ -3,11 +3,16 @@ import { FALLBACK_MODELS } from "./fallback-models";
 
 // 公开模型清单 URL 列表。启动时按顺序 fetch，拿最新套餐模型；
 // 全部失败则用打包的 FALLBACK_MODELS。
-// - jsDelivr CDN 优先（国内一般可达），GitHub raw 兜底。
+// - jsDelivr 分线路域名：fastly/testingcf/gcore 对 purge 响应可靠；
+//   cdn.jsdelivr.net 的直连边缘节点在 purge 后可能长期吐旧缓存，只作兜底。
+// - GitHub raw 国内常超时，放最后。
 // - 可通过 VOLCENGINE_PLAN_REGISTRY_URL 环境变量覆盖为单一地址。
 const REGISTRY_URLS = process.env.VOLCENGINE_PLAN_REGISTRY_URL
   ? [process.env.VOLCENGINE_PLAN_REGISTRY_URL]
   : [
+      "https://fastly.jsdelivr.net/gh/buwalle/pi-provider-volcengine-codingplan@main/registry/models.json",
+      "https://testingcf.jsdelivr.net/gh/buwalle/pi-provider-volcengine-codingplan@main/registry/models.json",
+      "https://gcore.jsdelivr.net/gh/buwalle/pi-provider-volcengine-codingplan@main/registry/models.json",
       "https://cdn.jsdelivr.net/gh/buwalle/pi-provider-volcengine-codingplan@main/registry/models.json",
       "https://raw.githubusercontent.com/buwalle/pi-provider-volcengine-codingplan/main/registry/models.json",
     ];
